@@ -4,5 +4,6 @@ namespace App\Interfaces;
 
 interface EmployeeRepositoryInterface
 {
-    public function getAllByName(string $name);
+    public function getAllByFullName(string $name);
+    public function searchByName(string $name, int $limit);
 }

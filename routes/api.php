@@ -14,7 +14,10 @@ use App\Http\Middleware\CacheJsonResponse;
 |
 */
 
-Route::middleware(['api/v1', CacheJsonResponse::class])->group(function () {
-    Route::get('/employee/{name}', [App\Http\Controllers\EmployeeController::class, 'getEmployersByName']);
+Route::prefix('v1')
+    ->middleware(['api', CacheJsonResponse::class])
+    ->group(function () {
+    Route::get('/employee', [App\Http\Controllers\EmployeeController::class, 'searchByName']);
+    Route::get('/employee/{name}', [App\Http\Controllers\EmployeeController::class, 'getByFullName']);
 });
 
