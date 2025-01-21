@@ -7,6 +7,52 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Описание
+Приложение позволяет импортировать данные из датасета.
+При импорте проверяется данные валидируются
+По завершении импорта выводится ко-во импортированных сотрудников и кол-во дублей
+При критических ошибках все изменения в БД откатываются
+
+API проверяет наличие соответствующего запроса в кэше(Redis). Если в кэше запрос не найден, данныее запрашиваются в БД (используется контракт репозитория), сохраняются в кэш и отдаются в виде JSON.
+Кэш реализован как middleware.
+
+Можно запросить сотрудника 2-мя способами - по полному совпадению имени или по частичному вхождению(см. раздел API)
+По частичному вхождению выполняется поиск по полнотекстовому индексу.
+
+Оба метода возвращают список сотрудников, т.к. имена могут совпадать. Для каждого сотрудника возвращается вся информация.
+
+### Стэк
+- Laravel 11 + predis
+- MySQL 8
+- Redis
+
+## Локальный деплой
+
+### Клонирование репозитория и установка зависимостей
+git clone https://github.com/maxkeet/donteco-employees.git
+cd repository
+composer install
+
+### Миграции БД
+php artisan migrate
+
+### Запуск команды для импорта данных из датасета
+php artisan import:csv_to_db data.csv
+
+## Использование API
+
+Реализовал 2 метода API
+
+ - Для получения сотрудников по полному вхождению имени
+http://127.0.0.1:8001/api/v1/employee/{name}
+
+- Для поиска сотрудников по части имени
+http://127.0.0.1:8001/api/v1/employee?name={name}
+
+Оба метода возвращают список сотрудников т.к. имена сотрудников могут совпадать
+
+
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
