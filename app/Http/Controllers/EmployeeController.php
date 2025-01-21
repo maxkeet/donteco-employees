@@ -26,12 +26,12 @@ class EmployeeController extends Controller
     public function searchByName(Request $request): \Illuminate\Http\JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|min:3|max:255',
+            'name' => 'required|string|min:4|max:255',
             'per_page' => 'int|min:10|max:100'
         ], [
             'name.required' => 'The name field is required',
             'name.string' => 'The name field must be string',
-            'name.min' => 'The name field must be at least 3 characters',
+            'name.min' => 'The name field must be at least 4 characters',
             'name.max' => 'The name field may not be greater than 255 characters',
             'per_page.int' => 'The per_page field must be integer',
             'per_page.min' => 'The per_page field must be at least 10',
